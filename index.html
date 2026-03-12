@@ -1,0 +1,1592 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#04040e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="¿Qué es Filosofar?">
+<title>¿Qué es Filosofar? · Filosofía 6.º Año</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+/*
+  ¿Qué es Filosofar? — App de contenido
+  Unidad 1 · Tema 3 · Filosofía 6.º Año
+  Escuela Amado Juri · Tucumán · Argentina
+  Prof. Julio Alberto Lazarte
+  v1.0 — 2026-03-11 — Versión inicial
+*/
+
+:root {
+  --bg:        #04040e;
+  --bg2:       #080818;
+  --surface:   #0c0c22;
+  --border:    #1a1a3a;
+  --gold:      #f0c040;
+  --gold2:     #d4a020;
+  --cyan:      #00e5ff;
+  --purple:    #b44ffc;
+  --orange:    #ff6b35;
+  --green:     #39ff7a;
+  --red:       #ff4060;
+  --teal:      #00ffcc;
+  --pink:      #ff4db8;
+  --text:      #e8e0ff;
+  --muted:     #5a5580;
+  --dim:       #2a2850;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── CANVAS PARTÍCULAS ───────────────────────── */
+#particles{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.5;
+}
+
+/* ── HERO ────────────────────────────────────── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:2rem 1.5rem;
+  z-index:1;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,
+    #1a003a55 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-kicker{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  color:var(--purple);
+  margin-bottom:1.2rem;
+  animation:fadeUp 1s ease both;
+}
+.hero h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2rem,8vw,4.5rem);
+  font-weight:900;
+  line-height:1.05;
+  background:linear-gradient(135deg, var(--purple) 0%, #e0c0ff 40%, var(--cyan) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:fadeUp 1s 0.2s ease both;
+}
+.hero h1 span{
+  display:block;
+  font-size:clamp(1.1rem,4vw,2rem);
+  background:linear-gradient(135deg, var(--gold) 0%, #fff8e0 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-top:0.3rem;
+  font-weight:600;
+}
+.hero-sub{
+  margin-top:1.2rem;
+  font-family:'Crimson Pro',serif;
+  font-size:1.15rem;
+  color:#a09ac0;
+  font-style:italic;
+  max-width:560px;
+  animation:fadeUp 1s 0.4s ease both;
+}
+.hero-greek{
+  margin-top:0.8rem;
+  font-family:'Cinzel',serif;
+  font-size:0.75rem;
+  letter-spacing:0.25em;
+  color:var(--purple);
+  opacity:0.65;
+  animation:fadeUp 1s 0.6s ease both;
+}
+.hero-badges{
+  display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;
+  margin-top:1.4rem;
+  animation:fadeUp 1s 0.8s ease both;
+}
+.hero-badge{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.55rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:0.3rem 0.8rem;
+  border-radius:2px;
+  border:1px solid var(--border);
+  color:var(--muted);
+}
+.scroll-hint{
+  margin-top:3rem;
+  display:flex;flex-direction:column;align-items:center;gap:0.4rem;
+  animation:fadeUp 1s 1s ease both;
+  cursor:pointer;
+}
+.scroll-hint span{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.scroll-arrow{
+  width:24px;height:24px;
+  border-right:2px solid var(--purple);
+  border-bottom:2px solid var(--purple);
+  transform:rotate(45deg);
+  animation:bounce 1.5s infinite;
+  opacity:0.6;
+}
+
+/* ── MEANDER ─────────────────────────────────── */
+.meander{
+  width:100%;height:12px;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 4px,
+    var(--purple) 4px, var(--purple) 6px,
+    transparent 6px, transparent 10px,
+    var(--purple) 10px, var(--purple) 12px
+  );
+  opacity:0.12;
+  margin:0;
+}
+
+/* ── STICKY NAV ──────────────────────────────── */
+.nav-bar{
+  position:sticky;top:0;
+  z-index:200;
+  background:rgba(4,4,14,0.93);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  display:flex;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-tab{
+  display:flex;align-items:center;gap:0.45rem;
+  padding:0.75rem 0.9rem;
+  border:none;background:transparent;
+  cursor:pointer;
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  border-bottom:2px solid transparent;
+  transition:all 0.2s;
+  white-space:nowrap;
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-tab .tab-num{
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--dim);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;
+  transition:all 0.2s;
+}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:var(--purple);border-bottom-color:var(--purple);}
+.nav-tab.active .tab-num{background:var(--purple);color:#fff;}
+.progress-bar{
+  height:2px;
+  background:linear-gradient(90deg,var(--purple),var(--cyan));
+  width:0%;
+  transition:width 0.3s;
+}
+
+/* ── SECTION ─────────────────────────────────── */
+.chapter{
+  position:relative;
+  z-index:1;
+  padding:3rem 0 2rem;
+}
+.chapter-header{
+  padding:0 1.2rem 2rem;
+  display:flex;flex-direction:column;gap:0.5rem;
+  opacity:0;transform:translateY(30px);
+  transition:all 0.7s ease;
+}
+.chapter-header.visible{opacity:1;transform:none;}
+.ch-num{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.58rem;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+}
+.ch-era{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.2rem,4vw,2rem);
+  font-weight:700;
+  line-height:1.1;
+}
+.ch-tagline{
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;
+  font-style:italic;
+  color:#8880aa;
+  max-width:600px;
+}
+.ch-question{
+  margin-top:0.4rem;
+  display:inline-block;
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:0.3rem 0.8rem;
+  border-radius:2px;
+  border:1px solid currentColor;
+  width:fit-content;
+}
+
+/* colores por capítulo */
+.ch1 .ch-num,.ch1 .ch-question{color:var(--purple);}
+.ch1 .ch-era{background:linear-gradient(135deg,var(--purple),#8822cc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ch2 .ch-num,.ch2 .ch-question{color:var(--cyan);}
+.ch2 .ch-era{background:linear-gradient(135deg,var(--cyan),#00aacc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ch3 .ch-num,.ch3 .ch-question{color:var(--gold);}
+.ch3 .ch-era{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ch4 .ch-num,.ch4 .ch-question{color:var(--orange);}
+.ch4 .ch-era{background:linear-gradient(135deg,var(--orange),#cc4400);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ch5 .ch-num,.ch5 .ch-question{color:var(--green);}
+.ch5 .ch-era{background:linear-gradient(135deg,var(--green),#00cc55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ch6 .ch-num,.ch6 .ch-question{color:var(--teal);}
+.ch6 .ch-era{background:linear-gradient(135deg,var(--teal),#00aaaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── CONTEXT BOX ─────────────────────────────── */
+.context-box{
+  margin:0 1.2rem 2rem;
+  padding:1.2rem 1.4rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s 0.1s ease;
+}
+.context-box.visible{opacity:1;transform:none;}
+.context-box::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;
+}
+.ch1 .context-box::before{background:var(--purple);}
+.ch2 .context-box::before{background:var(--cyan);}
+.ch3 .context-box::before{background:var(--gold);}
+.ch4 .context-box::before{background:var(--orange);}
+.ch5 .context-box::before{background:var(--green);}
+.ch6 .context-box::before{background:var(--teal);}
+.context-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.56rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:0.6rem;
+}
+.context-text{
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;
+  color:#b0a8cc;
+  line-height:1.7;
+}
+
+/* ── CARDS GRID ──────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0;}
+.phil-card{
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+  opacity:0;transform:translateX(-20px);
+  transition:all 0.6s ease;
+  background:var(--bg);
+}
+.phil-card.visible{opacity:1;transform:none;}
+.phil-card.open{background:var(--bg2);}
+.card-trigger{
+  display:flex;align-items:stretch;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  transition:background 0.15s;
+}
+.card-trigger:active{background:rgba(255,255,255,0.03);}
+.card-glyph{
+  width:56px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;
+  background:rgba(255,255,255,0.03);
+  border-right:1px solid var(--border);
+}
+.card-main{
+  flex:1;
+  padding:1rem 1rem 1rem 1.1rem;
+  display:flex;flex-direction:column;gap:0.2rem;
+}
+.card-top{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.card-year{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.65rem;font-weight:700;
+  letter-spacing:0.12em;
+}
+.card-badge{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.52rem;letter-spacing:0.18em;
+  text-transform:uppercase;
+  padding:0.1rem 0.5rem;
+  border-radius:2px;border:1px solid currentColor;
+}
+.card-name{
+  font-family:'Cinzel',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--text);line-height:1.2;
+}
+.card-concept{
+  font-family:'Crimson Pro',serif;
+  font-size:0.9rem;font-style:italic;
+  color:#7870a0;
+}
+.card-arrow{
+  padding:1rem 1rem 1rem 0.5rem;
+  display:flex;align-items:center;
+  color:var(--muted);font-size:0.8rem;
+  flex-shrink:0;transition:transform 0.25s,color 0.2s;
+}
+.phil-card.open .card-arrow{transform:rotate(180deg);}
+.card-body{display:none;padding:0 1.4rem 1.6rem 1.4rem;}
+.phil-card.open .card-body{display:block;}
+.body-section{margin-bottom:1.2rem;}
+.body-section:last-child{margin-bottom:0;}
+.sec-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.56rem;letter-spacing:0.28em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.body-text{
+  font-family:'Crimson Pro',serif;
+  font-size:0.98rem;color:#b8b0d0;line-height:1.75;
+}
+.highlight-box{
+  margin-top:0.8rem;
+  padding:0.9rem 1rem;
+  border-radius:4px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+}
+.highlight-box .hl-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.56rem;letter-spacing:0.25em;
+  text-transform:uppercase;margin-bottom:0.4rem;
+}
+.highlight-box p{
+  font-family:'Crimson Pro',serif;
+  font-size:0.95rem;font-style:italic;line-height:1.65;
+}
+.concept-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem;}
+.chip{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.6rem;letter-spacing:0.1em;
+  padding:0.25rem 0.65rem;
+  border-radius:20px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  color:#6a6490;
+}
+
+/* ── NEXO ────────────────────────────────────── */
+.nexo{
+  margin:1rem 1.2rem;
+  padding:0.8rem 1rem;
+  border-radius:4px;
+  display:flex;align-items:flex-start;gap:0.7rem;
+  background:rgba(255,255,255,0.03);
+  border:1px dashed var(--border);
+  opacity:0;transform:translateY(10px);
+  transition:all 0.5s ease;
+}
+.nexo.visible{opacity:1;transform:none;}
+.nexo-icon{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem;}
+.nexo-text{
+  font-family:'Crimson Pro',serif;
+  font-size:0.88rem;font-style:italic;
+  color:#7870a0;line-height:1.6;
+}
+.nexo-text strong{font-style:normal;font-weight:600;color:#a098c0;}
+
+/* ── TRES TIPOS TABLE ────────────────────────── */
+.tipos-grid{
+  margin:0 1.2rem 1.5rem;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0.8rem;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s 0.15s ease;
+}
+.tipos-grid.visible{opacity:1;transform:none;}
+.tipo-card{
+  padding:1.2rem 1.2rem 1.2rem 1rem;
+  border-radius:4px;
+  border-left:3px solid currentColor;
+  background:rgba(255,255,255,0.03);
+  position:relative;
+}
+.tipo-icon{font-size:1.8rem;margin-bottom:0.5rem;display:block;}
+.tipo-label{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.56rem;letter-spacing:0.3em;
+  text-transform:uppercase;margin-bottom:0.3rem;
+}
+.tipo-title{
+  font-family:'Cinzel',serif;
+  font-size:1rem;font-weight:700;
+  margin-bottom:0.5rem;
+}
+.tipo-ejemplo{
+  font-family:'Crimson Pro',serif;
+  font-size:0.9rem;font-style:italic;
+  color:#8880aa;margin-bottom:0.6rem;
+  padding:0.5rem 0.7rem;
+  background:rgba(255,255,255,0.04);
+  border-radius:3px;
+}
+.tipo-responde{
+  font-family:'Crimson Pro',serif;
+  font-size:0.88rem;color:#b0a8cc;line-height:1.6;
+}
+.tipo-tag{
+  display:inline-block;margin-top:0.5rem;
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.52rem;letter-spacing:0.18em;
+  text-transform:uppercase;
+  padding:0.15rem 0.5rem;
+  border-radius:2px;border:1px solid currentColor;
+}
+
+/* ── COMPARACION TRES TIPOS ──────────────────── */
+.compare-table{
+  margin:0 1.2rem 1.5rem;
+  border-collapse:collapse;
+  width:calc(100% - 2.4rem);
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s 0.2s ease;
+}
+.compare-table.visible{opacity:1;transform:none;}
+.compare-table th{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.56rem;letter-spacing:0.25em;
+  text-transform:uppercase;
+  padding:0.6rem 0.8rem;
+  text-align:left;
+  background:var(--surface);
+  border-bottom:2px solid var(--border);
+}
+.compare-table td{
+  font-family:'Crimson Pro',serif;
+  font-size:0.88rem;color:#b0a8cc;
+  padding:0.55rem 0.8rem;
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+  line-height:1.5;
+}
+.compare-table tr:hover td{background:rgba(255,255,255,0.02);}
+.compare-table td:first-child{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.75rem;font-weight:600;
+  letter-spacing:0.05em;
+  color:var(--text);
+  white-space:nowrap;
+}
+
+/* ── QUOTE BIG ───────────────────────────────── */
+.big-quote{
+  margin:0 0 1.5rem;
+  padding:1.8rem 1.4rem;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s 0.2s ease;
+}
+.big-quote.visible{opacity:1;transform:none;}
+.big-quote::before{
+  content:'"';
+  position:absolute;top:-0.2rem;left:1rem;
+  font-family:'Cinzel',serif;font-size:5rem;
+  color:var(--purple);opacity:0.15;line-height:1;
+}
+.bq-text{
+  font-family:'Crimson Pro',serif;
+  font-size:1.15rem;font-style:italic;
+  color:#c8c0e8;line-height:1.7;
+  padding-left:0.5rem;
+}
+.bq-author{
+  margin-top:0.8rem;
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.62rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--muted);
+  padding-left:0.5rem;
+}
+
+/* ── ACTITUD SOCRÁTICA ───────────────────────── */
+.socratica-box{
+  margin:0 1.2rem 1.5rem;
+  padding:1.3rem 1.4rem;
+  border-radius:4px;
+  background:rgba(180,79,252,0.07);
+  border:1px solid rgba(180,79,252,0.25);
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s ease;
+}
+.socratica-box.visible{opacity:1;transform:none;}
+.socratica-title{
+  font-family:'Cinzel',serif;font-size:0.85rem;
+  font-weight:700;color:var(--purple);
+  margin-bottom:0.7rem;letter-spacing:0.05em;
+}
+.socratica-item{
+  display:flex;align-items:flex-start;gap:0.6rem;
+  margin-bottom:0.6rem;font-family:'Crimson Pro',serif;
+  font-size:0.93rem;color:#b8b0d0;line-height:1.6;
+}
+.socratica-item:last-child{margin-bottom:0;}
+.socratica-num{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.6rem;font-weight:700;
+  color:var(--purple);min-width:20px;
+  margin-top:0.2rem;
+}
+
+/* ── RAMAS TABLE ─────────────────────────────── */
+.ramas-grid{
+  margin:0 1.2rem 1.5rem;
+  display:grid;grid-template-columns:1fr;
+  gap:0;
+  border:1px solid var(--border);
+  border-radius:4px;overflow:hidden;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s ease;
+}
+.ramas-grid.visible{opacity:1;transform:none;}
+.rama-row{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  border-bottom:1px solid var(--border);
+}
+.rama-row:last-child{border-bottom:none;}
+.rama-icon{
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+  background:rgba(255,255,255,0.03);
+  border-right:1px solid var(--border);
+  padding:0.8rem 0;
+}
+.rama-info{padding:0.9rem 1rem;}
+.rama-nombre{
+  font-family:'Cinzel',serif;font-size:0.85rem;
+  font-weight:700;color:var(--text);
+  margin-bottom:0.2rem;
+}
+.rama-pregunta{
+  font-family:'Crimson Pro',serif;font-size:0.88rem;
+  font-style:italic;color:#8880aa;
+  margin-bottom:0.3rem;
+}
+.rama-detalle{
+  font-family:'Crimson Pro',serif;font-size:0.83rem;
+  color:#6a6490;line-height:1.5;
+}
+
+/* ── VIDA COTIDIANA ──────────────────────────── */
+.cotidiana-grid{
+  margin:0 1.2rem 1.5rem;
+  display:grid;grid-template-columns:1fr;
+  gap:0.7rem;
+  opacity:0;transform:translateY(20px);
+  transition:all 0.7s ease;
+}
+.cotidiana-grid.visible{opacity:1;transform:none;}
+.cotidiana-card{
+  padding:1rem 1.1rem;
+  border-radius:4px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:0.8rem;
+}
+.cot-icon{font-size:1.4rem;flex-shrink:0;margin-top:0.1rem;}
+.cot-body{}
+.cot-situacion{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.72rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--green);margin-bottom:0.3rem;
+}
+.cot-frase{
+  font-family:'Crimson Pro',serif;
+  font-size:0.95rem;font-style:italic;
+  color:#c0b8e0;margin-bottom:0.4rem;
+}
+.cot-pregunta{
+  font-family:'Crimson Pro',serif;
+  font-size:0.88rem;color:#8880aa;line-height:1.55;
+}
+.cot-pregunta strong{color:#a098c0;font-style:normal;}
+
+/* ── FINAL BANNER ────────────────────────────── */
+.final-banner{
+  z-index:1;position:relative;
+  padding:3rem 1.4rem 2.5rem;
+  text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(180,79,252,0.05) 50%,transparent);
+  border-top:1px solid var(--border);
+}
+.fb-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,4vw,1.5rem);
+  font-weight:700;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:1rem;
+}
+.fb-text{
+  font-family:'Crimson Pro',serif;
+  font-size:0.95rem;font-style:italic;
+  color:#7870a0;max-width:500px;
+  margin:0 auto 1.5rem;line-height:1.7;
+}
+.fb-footer{
+  font-family:'Rajdhani',sans-serif;
+  font-size:0.55rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--muted);
+  line-height:2;
+}
+
+/* ── ANIMACIONES ─────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:none;}
+}
+@keyframes bounce{
+  0%,100%{transform:rotate(45deg) translateY(0);}
+  50%{transform:rotate(45deg) translateY(5px);}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- ══════════════════════════════════════════
+  HERO
+══════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-kicker">Unidad I · Tema 3 · Filosofía 6.º Año</div>
+  <h1>¿Qué es<br>Filosofar?
+    <span>Aprender a hacerse las preguntas que importan</span>
+  </h1>
+  <div class="hero-sub">No hay filósofos sin asombro. Y tú ya te asombraste: cada vez que preguntaste "¿por qué?" sin conformarte con la primera respuesta.</div>
+  <div class="hero-greek">φιλοσοφία · philía + sophía · amor por la sabiduría</div>
+  <div class="hero-badges">
+    <span class="hero-badge">El asombro filosófico</span>
+    <span class="hero-badge">3 tipos de preguntas</span>
+    <span class="hero-badge">La actitud socrática</span>
+    <span class="hero-badge">Filosofía en tu vida</span>
+    <span class="hero-badge">Las ramas</span>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'})">
+    <span>Comenzar</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-tab active" data-ch="1" onclick="goChapter(1)">
+      <span class="tab-num">1</span>El Asombro
+    </button>
+    <button class="nav-tab" data-ch="2" onclick="goChapter(2)">
+      <span class="tab-num">2</span>3 Tipos de Preguntas
+    </button>
+    <button class="nav-tab" data-ch="3" onclick="goChapter(3)">
+      <span class="tab-num">3</span>¿Qué hace filosófica...?
+    </button>
+    <button class="nav-tab" data-ch="4" onclick="goChapter(4)">
+      <span class="tab-num">4</span>La Actitud Socrática
+    </button>
+    <button class="nav-tab" data-ch="5" onclick="goChapter(5)">
+      <span class="tab-num">5</span>En tu Vida
+    </button>
+    <button class="nav-tab" data-ch="6" onclick="goChapter(6)">
+      <span class="tab-num">6</span>Las Ramas
+    </button>
+  </div>
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 1 — El Asombro
+══════════════════════════════════════════ -->
+<section class="chapter ch1" id="ch1">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo I · El origen de todo</div>
+    <div class="ch-era">El Asombro (Thaumazein)</div>
+    <div class="ch-tagline">La filosofía no nació de una necesidad práctica. Nació de quedarse con la boca abierta.</div>
+    <div class="ch-question">Pregunta central: ¿De dónde nace el impulso de filosofar?</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🌌 El punto de partida</div>
+    <div class="context-text">Tanto Platón como Aristóteles coinciden en algo sorprendente: la filosofía no nació del hambre, del miedo, ni de la necesidad de sobrevivir. Nació de la <strong>admiración</strong>. Del momento en que alguien miró el cielo estrellado y, en lugar de seguir caminando, se quedó parado preguntando: ¿qué es todo eso? ¿Por qué existe? ¿Hay una razón? Ese momento —el asombro ante la existencia misma— es el nacimiento del pensamiento filosófico.</div>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🌟</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--purple);">Platón · Teeteto</span>
+            <span class="card-badge" style="color:var(--purple);border-color:var(--purple);">Thaumazein</span>
+          </div>
+          <div class="card-name">El asombro como inicio</div>
+          <div class="card-concept">"El asombro es el único comienzo de la filosofía."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">¿Qué es el asombro filosófico?</div>
+          <div class="body-text">El asombro (en griego: <em>thaumazein</em>) no es simplemente quedar sorprendido. Es quedar <strong>perplejo ante algo que debería ser obvio</strong> pero resulta misterioso cuando lo pensás de verdad. ¿Por qué existe algo en lugar de nada? ¿Qué es el tiempo? ¿Qué hace que una acción sea justa? Preguntas que parecen simples pero que, al mirarlas de frente, generan vértigo intelectual.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">La diferencia con la curiosidad común</div>
+          <div class="body-text">Cuando ves un perro y preguntás "¿de qué raza es?", eso es curiosidad ordinaria — se resuelve buscando en Google. El asombro filosófico es diferente: cuando preguntás "¿qué es un animal?", "¿qué es la vida?", "¿qué me hace ser <em>yo</em>?" — esas preguntas no se resuelven con una búsqueda. Te exigen <em>pensar</em>, construir ideas, argumentar.</div>
+        </div>
+        <div class="highlight-box">
+          <div class="hl-label" style="color:var(--purple);">💡 Para pensar</div>
+          <p style="color:#d0a0ff;">¿Cuándo fue la última vez que te quedaste pensando en algo que todo el mundo da por sentado? Eso —ese momento de "espera, ¿por qué?"— es exactamente el inicio del filosofar.</p>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Thaumazein</span><span class="chip">Admiración</span><span class="chip">Perplejidad</span><span class="chip">Platón</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🧠</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--purple);">Aristóteles · Metafísica</span>
+            <span class="card-badge" style="color:var(--purple);border-color:var(--purple);">El deseo de saber</span>
+          </div>
+          <div class="card-name">La naturaleza curiosa del ser humano</div>
+          <div class="card-concept">"Todos los hombres tienen por naturaleza el deseo de saber."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">Saber por el saber mismo</div>
+          <div class="body-text">Aristóteles observa algo llamativo: los humanos disfrutan de conocer <strong>incluso cuando ese conocimiento no tiene ninguna utilidad práctica</strong>. Miramos un eclipse, estudiamos astronomía, nos fascinan los pulpos inteligentes — no porque nos sirvan para algo, sino porque conocer nos produce satisfacción en sí misma. El filósofo es el que lleva esta tendencia hasta sus últimas consecuencias: pregunta sin miedo a que la respuesta sea incómoda.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">El tiempo libre y la filosofía</div>
+          <div class="body-text">Aristóteles señala que la filosofía surgió cuando las personas tuvieron tiempo libre — cuando no toda la energía estaba puesta en sobrevivir. La filosofía es un lujo del que el ser humano se apropia cuando puede dejar de correr y ponerse a pensar. No como escapismo, sino como el ejercicio más humano posible: el de dar sentido a la existencia.</div>
+        </div>
+        <div class="highlight-box">
+          <div class="hl-label" style="color:var(--purple);">💡 Paradoja</div>
+          <p style="color:#d0a0ff;">La filosofía nació de tener tiempo libre, pero luego planteó preguntas que no dan descanso. El filósofo es el que no puede dejar de pensar incluso cuando quiere.</p>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Deseo de saber</span><span class="chip">Ocio</span><span class="chip">Saber sin utilidad</span><span class="chip">Aristóteles</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🪞</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--purple);">Cotidiano · Argentina · 2026</span>
+            <span class="card-badge" style="color:var(--purple);border-color:var(--purple);">Ejemplos reales</span>
+          </div>
+          <div class="card-name">El asombro en tu día a día</div>
+          <div class="card-concept">"Filosofás sin saber que filosofás."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">Situaciones de asombro filosófico cotidiano</div>
+          <div class="body-text">Te pasó alguna de estas:</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">📱 En redes sociales</div>
+          <div class="body-text">Ves que alguien bloquea a otra persona por opinar diferente y te preguntás: <em>¿tenemos realmente derecho a escuchar solo lo que queremos? ¿Es eso libertad o trampa?</em> Eso es filosofar.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">⚽ En el fútbol</div>
+          <div class="body-text">Un árbitro cobra un penal dudoso y la mitad del estadio dice "es penal", la otra mitad dice "no lo fue". Los dos miraron lo mismo. Te preguntás: <em>¿existe la objetividad? ¿O cada uno ve lo que quiere ver?</em> Eso es gnoseología filosófica.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">🏛️ En la política</div>
+          <div class="body-text">Ves que alguien justifica una injusticia porque "siempre fue así" o "todo el mundo lo hace". Y sentís que algo está mal en ese argumento, aunque no puedas explicar exactamente qué. Eso es intuición filosófica. La filosofía te da las herramientas para explicarlo.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Cotidiano</span><span class="chip">Injusticia</span><span class="chip">Percepción</span><span class="chip">Sentido común</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nexo">
+    <div class="nexo-icon">🔮</div>
+    <div class="nexo-text"><strong>El problema del asombro:</strong> No alcanza con asombrarse. Un bebé se asombra de todo y no filosofa. Lo que hace al filósofo es que <em>traduce el asombro en preguntas precisas</em> y luego las piensa con rigor y honestidad intelectual. La próxima pregunta es: ¿qué tipo de preguntas son las filosóficas?</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 2 — Tres tipos de preguntas
+══════════════════════════════════════════ -->
+<section class="chapter ch2" id="ch2">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo II · La distinción fundamental</div>
+    <div class="ch-era">Tres Tipos de Preguntas</div>
+    <div class="ch-tagline">No todas las preguntas se responden igual. Saber qué tipo de pregunta hacés es el primer paso del pensamiento crítico.</div>
+    <div class="ch-question">Pregunta central: ¿Qué diferencia una pregunta filosófica de una científica o religiosa?</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🔬 Por qué importa esta distinción</div>
+    <div class="context-text">Uno de los errores más frecuentes en debates —en redes, en política, en la familia— es <strong>confundir qué tipo de pregunta se está haciendo</strong>. Si alguien pregunta "¿vacunarse es malo?" y otro responde con una creencia religiosa, están hablando desde tipos distintos de preguntas. Si alguien pregunta "¿abortar es justo?" y otro responde con una estadística médica, tampoco están respondiendo lo mismo. La filosofía enseña a distinguir el terreno antes de argumentar.</div>
+  </div>
+
+  <div class="tipos-grid" id="tiposGrid">
+    <div class="tipo-card" style="color:var(--cyan);border-color:var(--cyan);">
+      <span class="tipo-icon">🔬</span>
+      <div class="tipo-label" style="color:var(--cyan);">Pregunta científica</div>
+      <div class="tipo-title" style="color:var(--text);">Empírica y verificable</div>
+      <div class="tipo-ejemplo">Ejemplo: "¿A qué temperatura hierve el agua en Tucumán?"</div>
+      <div class="tipo-responde">Se responde con <strong>observación, experimentos y datos</strong>. La respuesta es provisional — puede cambiar si aparecen nuevos datos. El desacuerdo se resuelve con evidencia.</div>
+      <span class="tipo-tag" style="color:var(--cyan);border-color:var(--cyan);">Método: empírico · verificable · provisional</span>
+    </div>
+
+    <div class="tipo-card" style="color:var(--gold);border-color:var(--gold);">
+      <span class="tipo-icon">⛪</span>
+      <div class="tipo-label" style="color:var(--gold);">Pregunta religiosa / teológica</div>
+      <div class="tipo-title" style="color:var(--text);">Fe y revelación</div>
+      <div class="tipo-ejemplo">Ejemplo: "¿Existe Dios? ¿Qué quiere Dios de nosotros?"</div>
+      <div class="tipo-responde">Se responde desde la <strong>fe, la revelación o la tradición</strong>. No depende de experimentos ni de argumentos filosóficos. El desacuerdo no se resuelve con datos ni con lógica — depende de la fe de cada uno.</div>
+      <span class="tipo-tag" style="color:var(--gold);border-color:var(--gold);">Método: fe · revelación · tradición</span>
+    </div>
+
+    <div class="tipo-card" style="color:var(--purple);border-color:var(--purple);">
+      <span class="tipo-icon">🤔</span>
+      <div class="tipo-label" style="color:var(--purple);">Pregunta filosófica</div>
+      <div class="tipo-title" style="color:var(--text);">Racional, universal, sin respuesta única</div>
+      <div class="tipo-ejemplo">Ejemplo: "¿Qué es la justicia? ¿Tenemos obligación de obedecer leyes injustas?"</div>
+      <div class="tipo-responde">Se responde con <strong>argumentos racionales</strong>. No hay una respuesta definitiva verificable ni una respuesta de fe — hay posiciones que se sostienen o se refutan con lógica. El desacuerdo se resuelve (o profundiza) con el debate.</div>
+      <span class="tipo-tag" style="color:var(--purple);border-color:var(--purple);">Método: argumentación · razón · debate</span>
+    </div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🇦🇷 Ejemplos argentinos — ¿De qué tipo es cada pregunta?</div>
+    <div class="context-text">Clasificá mentalmente estas preguntas antes de seguir:<br><br>
+      <strong style="color:var(--cyan);">C</strong> = Científica &nbsp;·&nbsp; <strong style="color:var(--gold);">R</strong> = Religiosa &nbsp;·&nbsp; <strong style="color:var(--purple);">F</strong> = Filosófica<br><br>
+      1. ¿Cuántos casos de dengue hubo en 2024 en el NOA? &nbsp;<em style="color:#555;">(C)</em><br>
+      2. ¿Es justo que haya personas sin acceso a comida en un país con superávit alimentario? &nbsp;<em style="color:#555;">(F)</em><br>
+      3. ¿Tiene alma un animal? &nbsp;<em style="color:#555;">(R / F, según desde dónde se pregunta)</em><br>
+      4. ¿Qué temperatura promedio tuvo Tucumán en enero? &nbsp;<em style="color:#555;">(C)</em><br>
+      5. ¿Tenemos obligación moral de votar? &nbsp;<em style="color:#555;">(F)</em><br>
+      6. ¿La vida tiene un propósito dado por Dios? &nbsp;<em style="color:#555;">(R)</em>
+    </div>
+  </div>
+
+  <table class="compare-table" id="compareTable">
+    <thead>
+      <tr>
+        <th>Dimensión</th>
+        <th style="color:var(--cyan);">Científica</th>
+        <th style="color:var(--gold);">Religiosa</th>
+        <th style="color:var(--purple);">Filosófica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>¿Cómo se responde?</td>
+        <td>Con datos y experimentos</td>
+        <td>Con fe y revelación</td>
+        <td>Con argumentos racionales</td>
+      </tr>
+      <tr>
+        <td>¿Tiene respuesta definitiva?</td>
+        <td>Provisional (puede cambiar)</td>
+        <td>Sí (para el creyente)</td>
+        <td>No, pero hay mejores respuestas</td>
+      </tr>
+      <tr>
+        <td>¿Cómo se resuelve el desacuerdo?</td>
+        <td>Con más evidencia</td>
+        <td>No se resuelve racionalmente</td>
+        <td>Con debate y argumentación</td>
+      </tr>
+      <tr>
+        <td>¿Puede estar equivocada la respuesta?</td>
+        <td>Sí, siempre</td>
+        <td>No para el creyente</td>
+        <td>Sí, y es parte del proceso</td>
+      </tr>
+      <tr>
+        <td>Ejemplo concreto</td>
+        <td>¿Cuántos km hay a la Luna?</td>
+        <td>¿Hay vida después de la muerte?</td>
+        <td>¿Es justa la pena de muerte?</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="nexo">
+    <div class="nexo-icon">⚠️</div>
+    <div class="nexo-text"><strong>Atención:</strong> Estas categorías no son muros. Hay preguntas que viven en la frontera — como "¿tiene alma un feto?" (mezcla entre biología, filosofía y teología). Y hay respuestas religiosas que usan argumentos filosóficos. Distinguir no significa separar para siempre: significa saber <em>desde qué lugar</em> estás respondiendo.</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 3 — ¿Qué hace filosófica una pregunta?
+══════════════════════════════════════════ -->
+<section class="chapter ch3" id="ch3">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo III · Las características</div>
+    <div class="ch-era">¿Qué Hace Filosófica a una Pregunta?</div>
+    <div class="ch-tagline">No basta con que sea difícil. Una pregunta filosófica tiene rasgos propios que la distinguen de cualquier otra.</div>
+    <div class="ch-question">Pregunta central: ¿Cómo reconocer una pregunta filosófica?</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🧩 El test de la pregunta filosófica</div>
+    <div class="context-text">Hay preguntas difíciles que no son filosóficas ("¿cuántos genes tiene el ser humano?"). Y hay preguntas simples de enunciar que sí son filosóficas ("¿qué es la felicidad?"). ¿Cuál es la diferencia? Las preguntas filosóficas tienen cinco rasgos que te mostramos a continuación.</div>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🌍</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--gold);">Rasgo 1</span>
+            <span class="card-badge" style="color:var(--gold);border-color:var(--gold);">Universalidad</span>
+          </div>
+          <div class="card-name">Son universales: valen para todos</div>
+          <div class="card-concept">"¿Qué es la justicia?" — pregunta válida en Argentina, en Japón o en el siglo III a.C.</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">¿Qué significa universalidad?</div>
+          <div class="body-text">Una pregunta filosófica no depende de un tiempo, un lugar, una cultura o una persona específica. "¿Qué es la justicia?" es una pregunta que tiene sentido en cualquier sociedad humana. "¿Cuánto cuesta el dólar hoy?" no es filosófica porque cambia cada hora y depende del contexto argentino de 2024.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">Ejemplos de universalidad vs particularidad</div>
+          <div class="body-text">
+            <strong style="color:var(--gold);">Filosófica (universal):</strong> ¿Tenemos derecho a mentir para proteger a alguien?<br><br>
+            <strong style="color:var(--muted);">No filosófica (particular):</strong> ¿Le miento a mi mamá sobre las notas de este trimestre?
+          </div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Universalidad</span><span class="chip">Atemporal</span><span class="chip">Intercultural</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🌱</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--gold);">Rasgo 2</span>
+            <span class="card-badge" style="color:var(--gold);border-color:var(--gold);">Radicalidad</span>
+          </div>
+          <div class="card-name">Van a la raíz</div>
+          <div class="card-concept">"Radical" viene de "radix": raíz. La filosofía no se queda en la superficie.</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">Preguntarse por los fundamentos</div>
+          <div class="body-text">La filosofía no pregunta "¿cómo hacemos para que haya menos crimen?" — eso es política criminal. Pregunta: "¿Qué es el crimen? ¿Por qué el Estado tiene derecho a castigar? ¿Qué significa que algo sea ilegal?" Va a los fundamentos mismos de las cosas, no a sus síntomas.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">El método socrático: preguntar hasta la raíz</div>
+          <div class="body-text">Sócrates era famoso por preguntar "¿pero qué es eso realmente?" sobre cosas que todo el mundo daba por sabidas. "¿Qué es la valentía?" — "Es no tener miedo." — "¿Pero alguien sin miedo a nada es valiente, o es descuidado? ¿Es valiente el que siente miedo y actúa igual?" Las preguntas filosóficas siempre abren otra capa más profunda.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Radicalidad</span><span class="chip">Fundamentos</span><span class="chip">Profundidad</span><span class="chip">Método socrático</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">♾️</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--gold);">Rasgo 3</span>
+            <span class="card-badge" style="color:var(--gold);border-color:var(--gold);">Sin respuesta única</span>
+          </div>
+          <div class="card-name">No tienen una sola respuesta correcta</div>
+          <div class="card-concept">"¿Qué es la belleza?" — no tiene respuesta en el diccionario.</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">Esto no significa que "todo vale"</div>
+          <div class="body-text">Que no haya una respuesta única no significa que todas las respuestas sean igual de buenas. Hay respuestas filosóficas que están mejor argumentadas, que son más coherentes, que contemplan más casos. La filosofía distingue entre <em>opinión</em> (sin fundamento) y <em>posición filosófica</em> (con argumentos). No todo vale: vale lo que tiene razones sólidas.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">El debate como forma de avanzar</div>
+          <div class="body-text">A diferencia de una suma matemática, en filosofía el desacuerdo no es un error: es el método. Dos personas pueden defender posiciones opuestas con argumentos sólidos. El debate filosófico no busca ganar — busca que ambos piensen mejor que antes.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Pluralidad</span><span class="chip">Argumentación</span><span class="chip">Debate</span><span class="chip">Mejor argumento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🔁</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--gold);">Rasgo 4</span>
+            <span class="card-badge" style="color:var(--gold);border-color:var(--gold);">Generan más preguntas</span>
+          </div>
+          <div class="card-name">Cada respuesta abre nuevas preguntas</div>
+          <div class="card-concept">"Filosofar es aprender a vivir con preguntas abiertas sin angustia."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">El "¿por qué?" que no tiene fondo</div>
+          <div class="body-text">Si preguntás "¿qué es la libertad?", una respuesta posible es "hacer lo que uno quiere". Pero eso abre: ¿y si lo que uno quiere daña a otros? ¿Es libre una persona adicta que "quiere" consumir? ¿Es libre el que no tiene opciones económicas? Las preguntas filosóficas son como cebollas: cada capa que sacás revela otra capa más profunda.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">¿Por qué es esto una virtud y no un defecto?</div>
+          <div class="body-text">Para una mente ansiosa, preguntas sin fondo son frustrantes. Para el filósofo, son el horizonte que siempre se mueve hacia adelante. La filosofía enseña a <em>disfrutar la búsqueda</em>, no solo los resultados. El pensamiento que tolera la incertidumbre es más robusto que el que necesita certezas absolutas.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Apertura</span><span class="chip">Proceso</span><span class="chip">Incertidumbre</span><span class="chip">Búsqueda</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">⚡</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--gold);">Rasgo 5</span>
+            <span class="card-badge" style="color:var(--gold);border-color:var(--gold);">Exigen argumentos</span>
+          </div>
+          <div class="card-name">No se responden con intuición ni con autoridad</div>
+          <div class="card-concept">"Porque lo dijo el presidente / el médico / mi abuela" no es un argumento filosófico.</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">La razón como única autoridad</div>
+          <div class="body-text">En filosofía, no importa <em>quién</em> dice algo: importa <em>qué razones</em> da. Un Premio Nobel puede decir algo filosóficamente absurdo. Un adolescente puede plantear un argumento filosófico sólido. La única autoridad válida es el argumento bien construido. Esto es profundamente democrático: la capacidad de razonar es universal.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">¿Qué es un argumento filosófico?</div>
+          <div class="body-text">Un argumento es una serie de afirmaciones donde algunas (las premisas) sostienen a otra (la conclusión). "Todos los humanos mueren. Sócrates es humano. Por lo tanto, Sócrates morirá." Las preguntas filosóficas exigen que des las premisas que sostienen tu posición y que seas honesto cuando alguien señala que una premisa es falsa o incoherente.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Argumentación</span><span class="chip">Premisas</span><span class="chip">Razón</span><span class="chip">Democracia epistémica</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nexo">
+    <div class="nexo-icon">🎯</div>
+    <div class="nexo-text"><strong>Resumen:</strong> Una pregunta es filosófica si es <em>universal</em> (vale para todos), <em>radical</em> (va a la raíz), <em>sin respuesta única</em> pero con mejores y peores respuestas, <em>abre nuevas preguntas</em>, y <em>exige argumentos</em> — no fe, no datos, no autoridades. ¿Cuántos debates en redes sociales argentinas mejorarían si la gente distinguiera estas categorías?</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 4 — La actitud socrática
+══════════════════════════════════════════ -->
+<section class="chapter ch4" id="ch4">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo IV · El modelo del filósofo</div>
+    <div class="ch-era">La Actitud Socrática</div>
+    <div class="ch-tagline">Sócrates no enseñaba respuestas. Enseñaba a preguntar. Y por eso lo mataron.</div>
+    <div class="ch-question">Pregunta central: ¿Qué actitud define al que filosofa?</div>
+  </div>
+
+  <div class="big-quote">
+    <div class="bq-text">"Solo sé que no sé nada. Pero soy el más sabio de Atenas porque yo sé que no sé, y los demás creen que saben cuando no saben."</div>
+    <div class="bq-author">— Sócrates · según Platón, Apología</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🏺 Quién era Sócrates</div>
+    <div class="context-text">Sócrates (470-399 a.C.) fue el filósofo más influyente de la historia. Curiosamente, no escribió nada: lo sabemos por sus discípulos, especialmente Platón. Fue condenado a muerte por los atenienses acusado de "corromper a la juventud" y "no creer en los dioses de la ciudad". Su crimen real: hacer preguntas incómodas que desestabilizaban las certezas del poder. Eligió morir antes que dejar de filosofar.</div>
+  </div>
+
+  <div class="socratica-box" id="socraticaBox">
+    <div class="socratica-title">🧪 Los 5 rasgos de la actitud socrática</div>
+    <div class="socratica-item">
+      <div class="socratica-num">01</div>
+      <div><strong>Ignorancia consciente:</strong> El filósofo sabe que no sabe. Esto no es humildad falsa — es el punto de partida honesto que impide la arrogancia intelectual. Quien cree que ya sabe todo, deja de aprender.</div>
+    </div>
+    <div class="socratica-item">
+      <div class="socratica-num">02</div>
+      <div><strong>Pregunta sistemática (mayéutica):</strong> Sócrates "parteaba" ideas: ayudaba a los otros a dar a luz sus propios pensamientos con preguntas. No daba respuestas — hacía preguntas que obligaban al otro a pensar por sí mismo.</div>
+    </div>
+    <div class="socratica-item">
+      <div class="socratica-num">03</div>
+      <div><strong>Honestidad intelectual:</strong> Si un argumento propio resulta incorrecto, el filósofo lo abandona. La filosofía no es ganar un debate — es acercarse a la verdad, aunque eso signifique admitir que uno estaba equivocado.</div>
+    </div>
+    <div class="socratica-item">
+      <div class="socratica-num">04</div>
+      <div><strong>Coherencia entre pensamiento y vida:</strong> Sócrates vivía lo que pensaba. Eligió la muerte antes que contradecir su filosofía. La filosofía no es hobby intelectual: compromete la forma en que uno vive.</div>
+    </div>
+    <div class="socratica-item">
+      <div class="socratica-num">05</div>
+      <div><strong>Coraje intelectual:</strong> Preguntar lo que nadie pregunta, cuestionar lo que todos dan por sentado, señalar contradicciones en el poderoso. Filosofar tiene un costo social — y Sócrates lo pagó con su vida.</div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🐝</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--orange);">Sócrates · Apología</span>
+            <span class="card-badge" style="color:var(--orange);border-color:var(--orange);">La metáfora del tábano</span>
+          </div>
+          <div class="card-name">El filósofo como tábano de la ciudad</div>
+          <div class="card-concept">"Soy como un tábano que despierta a un caballo grande y perezoso llamado Atenas."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">¿Qué significa esta metáfora?</div>
+          <div class="body-text">Sócrates se compara a sí mismo con un tábano (insecto que pica a los caballos para que no se queden quietos). Atenas es el caballo: grande, poderoso, pero aletargado, satisfecho consigo mismo, sin ganas de cuestionarse. El filósofo lo pica con preguntas incómodas para que no se duerma. Para que la democracia no se vuelva complacencia.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">El tábano en la Argentina de hoy</div>
+          <div class="body-text">Preguntarse si las narrativas que uno consume en redes son realmente verdaderas. Cuestionar por qué algo "siempre fue así". Señalar contradicciones en los discursos políticos de cualquier signo. Preguntar "¿pero eso es justo?" cuando todo el mundo acepta una situación. Ese es el filósofo-tábano del siglo XXI.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Tábano</span><span class="chip">Democracia</span><span class="chip">Pensamiento crítico</span><span class="chip">Incomodidad</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phil-card" data-card>
+      <div class="card-trigger" onclick="toggleCard(this)">
+        <div class="card-glyph">🪞</div>
+        <div class="card-main">
+          <div class="card-top">
+            <span class="card-year" style="color:var(--orange);">Etimología · Filosofía</span>
+            <span class="card-badge" style="color:var(--orange);border-color:var(--orange);">Philía + Sophía</span>
+          </div>
+          <div class="card-name">El filósofo no es sabio: es amante de la sabiduría</div>
+          <div class="card-concept">"Philosophía: amor (philía) por la sabiduría (sophía)."</div>
+        </div>
+        <div class="card-arrow">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-section">
+          <div class="sec-label">Una distinción importante</div>
+          <div class="body-text">El <em>sophós</em> (sabio) es el que tiene la sabiduría. El <em>philósophos</em> (filósofo) es el que la ama y la busca. Para Sócrates, solo los dioses son verdaderamente sabios. Los humanos, en el mejor caso, son <em>amantes</em> de la sabiduría — nunca la poseen de forma completa. Esta actitud de búsqueda permanente es lo que define al filósofo, no la acumulación de conocimientos.</div>
+        </div>
+        <div class="body-section">
+          <div class="sec-label">¿Qué diferencia al filósofo del fanático?</div>
+          <div class="body-text">El fanático cree que ya tiene la verdad completa y no necesita seguir buscando. El filósofo sabe que la verdad siempre se le escapa un poco, que sus respuestas son provisorias. Por eso el filósofo puede cambiar de posición cuando aparece un mejor argumento. El fanático no puede: cambiar de posición sería traicionar su identidad.</div>
+        </div>
+        <div class="concept-chips">
+          <span class="chip">Amor al saber</span><span class="chip">Búsqueda</span><span class="chip">Provisoriedad</span><span class="chip">Anti-dogmatismo</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nexo">
+    <div class="nexo-icon">🌿</div>
+    <div class="nexo-text"><strong>La actitud filosófica en el aula:</strong> No necesitás saber todas las respuestas para filosofar. Necesitás animarte a preguntar sin miedo a quedar expuesto. A decir "no entendí" o "no estoy de acuerdo, y mis razones son...". La actitud socrática es perfectamente compatible con ser adolescente en Tucumán en 2026.</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 5 — Filosofía en tu vida cotidiana
+══════════════════════════════════════════ -->
+<section class="chapter ch5" id="ch5">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo V · Lo concreto</div>
+    <div class="ch-era">Filosofía en tu Vida</div>
+    <div class="ch-tagline">La filosofía no está en los libros polvorientos. Está en cada decisión difícil, en cada injusticia que te indigna, en cada pregunta que no podés sacarte de la cabeza.</div>
+    <div class="ch-question">Pregunta central: ¿Dónde aparece el pensamiento filosófico en la vida real?</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🗺️ Filosofía sin darte cuenta</div>
+    <div class="context-text">Cada vez que tomás una decisión moral, cada vez que cuestionás una norma, cada vez que preguntás "¿pero eso es justo?", estás ejerciendo pensamiento filosófico. La filosofía no es solo para académicos: es la herramienta que te permite navegar un mundo complejo sin dejarte llevar únicamente por lo que otros te dicen que pensés.</div>
+  </div>
+
+  <div class="cotidiana-grid" id="cotidianaGrid">
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">📱</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Redes sociales</div>
+        <div class="cot-frase">"Todo el mundo comparte esto, así que debe ser verdad."</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿La popularidad de una idea es evidencia de su verdad? ¿Qué es la verdad en la era de las redes?</strong> (Gnoseología + Epistemología)</div>
+      </div>
+    </div>
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">⚖️</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Una situación de injusticia</div>
+        <div class="cot-frase">"Ese alumno fue expulsado injustamente, pero a otro con más plata no le pasó nada."</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿Qué es la justicia? ¿Es posible la igualdad real en una sociedad desigual?</strong> (Filosofía política + Ética)</div>
+      </div>
+    </div>
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">🎮</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Videojuegos y mundos virtuales</div>
+        <div class="cot-frase">"Paso más tiempo en el juego que en el mundo real. ¿Es eso un problema?"</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿Qué hace que una experiencia sea "real"? ¿Tiene menos valor la felicidad virtual?</strong> (Metafísica + Filosofía de la mente)</div>
+      </div>
+    </div>
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">🗳️</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Política y elecciones</div>
+        <div class="cot-frase">"Voto porque hay que votar, pero ninguno me convence."</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿Tenemos obligación moral de participar en el sistema político? ¿Qué legitima el poder?</strong> (Filosofía política)</div>
+      </div>
+    </div>
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">🤝</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Un dilema moral con amigos</div>
+        <div class="cot-frase">"¿Le cuento a su novio/a que te vi con otra persona?"</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿La lealtad a un amigo puede justificar encubrir algo que daña a otro? ¿Existe el deber de decir la verdad?</strong> (Ética)</div>
+      </div>
+    </div>
+
+    <div class="cotidiana-card">
+      <div class="cot-icon">🌎</div>
+      <div class="cot-body">
+        <div class="cot-situacion">Cambio climático y generaciones futuras</div>
+        <div class="cot-frase">"Para cuando eso sea un problema, ya no estaré acá."</div>
+        <div class="cot-pregunta">Pregunta filosófica oculta: <strong>¿Tenemos obligaciones morales hacia personas que aún no nacieron? ¿Quién decide qué dejarles?</strong> (Ética + Filosofía política)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nexo">
+    <div class="nexo-icon">💡</div>
+    <div class="nexo-text"><strong>La filosofía no da recetas:</strong> Nada de lo que estudiamos te va a decir exactamente qué votar, en qué creer o cómo comportarte. Te va a dar herramientas para pensarlo mejor, para identificar cuándo te están manipulando, y para defender con argumentos lo que creés que es justo.</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══════════════════════════════════════════
+  CAPÍTULO 6 — Las ramas de la filosofía
+══════════════════════════════════════════ -->
+<section class="chapter ch6" id="ch6">
+  <div class="chapter-header">
+    <div class="ch-num">Capítulo VI · El mapa completo</div>
+    <div class="ch-era">Las Ramas de la Filosofía</div>
+    <div class="ch-tagline">La filosofía es una familia de disciplinas. Cada rama pregunta desde un ángulo distinto sobre la realidad, el conocimiento, el bien y la convivencia.</div>
+    <div class="ch-question">Pregunta central: ¿Qué grandes preguntas aborda la filosofía?</div>
+  </div>
+
+  <div class="context-box">
+    <div class="context-label">🗺️ Una hoja de ruta para el año</div>
+    <div class="context-text">Este mapa te muestra el territorio completo. A lo largo del año vamos a recorrer algunas de estas ramas con profundidad. Conocer el mapa desde el principio te ayuda a entender <em>por qué</em> estudiamos lo que estudiamos y qué preguntas grandes están detrás de cada tema.</div>
+  </div>
+
+  <div class="ramas-grid" id="ramasGrid">
+
+    <div class="rama-row">
+      <div class="rama-icon">🔍</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--purple);">Metafísica / Ontología</div>
+        <div class="rama-pregunta">¿Qué existe realmente? ¿Qué es el ser?</div>
+        <div class="rama-detalle">La rama más "profunda". Pregunta por la naturaleza última de la realidad: tiempo, espacio, materia, existencia. Es lo que estudiamos en el Tema 2 con los griegos.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">👁️</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--cyan);">Gnoseología / Epistemología</div>
+        <div class="rama-pregunta">¿Cómo conocemos? ¿Qué podemos saber con certeza?</div>
+        <div class="rama-detalle">Estudia el conocimiento humano: sus fuentes (razón, sentidos, experiencia), sus límites y sus tipos. Lo veremos en la Unidad 4.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">⚖️</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--gold);">Ética</div>
+        <div class="rama-pregunta">¿Qué es el bien? ¿Cómo debemos actuar?</div>
+        <div class="rama-detalle">Reflexiona sobre la moral: qué acciones son correctas, por qué, y cómo tomar decisiones ante dilemas. Atraviesa todo el año.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">🏛️</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--orange);">Filosofía Política</div>
+        <div class="rama-pregunta">¿Qué hace legítimo al poder? ¿Qué es la justicia social?</div>
+        <div class="rama-detalle">Analiza el Estado, la democracia, los derechos, la autoridad y la obediencia. Conecta directamente con la realidad argentina.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">💬</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--green);">Lógica</div>
+        <div class="rama-pregunta">¿Cómo razonamos correctamente? ¿Qué hace válido un argumento?</div>
+        <div class="rama-detalle">Estudia las reglas del pensamiento correcto y las falacias (errores de razonamiento). Lo veremos en el Tema 4 de esta unidad.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">🎨</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--teal);">Estética</div>
+        <div class="rama-pregunta">¿Qué es la belleza? ¿Qué hace valioso al arte?</div>
+        <div class="rama-detalle">Reflexiona sobre la experiencia estética, la creatividad y el juicio de gusto. No toda la filosofía es seria y abstracta.</div>
+      </div>
+    </div>
+
+    <div class="rama-row">
+      <div class="rama-icon">🧬</div>
+      <div class="rama-info">
+        <div class="rama-nombre" style="color:var(--pink);">Filosofía de la Ciencia</div>
+        <div class="rama-pregunta">¿Qué hace científico al conocimiento? ¿Puede la ciencia explicarlo todo?</div>
+        <div class="rama-detalle">Estudia los fundamentos, métodos y límites del conocimiento científico. Conecta con biología, física, química y ciencias sociales.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nexo">
+    <div class="nexo-icon">🧭</div>
+    <div class="nexo-text"><strong>Tu itinerario este año:</strong> Empezamos por la historia (Temas 1-2), luego preguntamos <em>qué es filosofar</em> (Tema 3), luego aprendemos a detectar razonamientos incorrectos con la lógica (Tema 4), luego entramos en gnoseología (cómo conocemos) y finalizamos con pensamiento crítico aplicado. Todo conectado. Todo para que puedas pensar mejor tu propia vida.</div>
+  </div>
+</section>
+
+<div class="meander"></div>
+
+<!-- ══ FINAL ══════════════════════════════════ -->
+<div class="final-banner">
+  <div class="fb-title">Del asombro a la argumentación</div>
+  <div class="fb-text">Filosofar es el acto más humano posible: pararse ante el mundo, negarse a dar las cosas por sabidas, y construir —con paciencia y honestidad— una forma propia de entender la existencia.</div>
+  <table style="margin:0 auto 1.5rem;border-collapse:collapse;width:100%;max-width:520px;">
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:0.5rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--purple);">El asombro</td>
+      <td style="padding:0.5rem 0.6rem;font-family:'Crimson Pro',serif;font-size:0.85rem;color:#8880aa;">Thaumazein — el origen de todo</td>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:0.5rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--cyan);">Los 3 tipos</td>
+      <td style="padding:0.5rem 0.6rem;font-family:'Crimson Pro',serif;font-size:0.85rem;color:#8880aa;">Filosófica · Científica · Religiosa</td>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:0.5rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--gold);">Los 5 rasgos</td>
+      <td style="padding:0.5rem 0.6rem;font-family:'Crimson Pro',serif;font-size:0.85rem;color:#8880aa;">Universal · Radical · Sin respuesta única · Abre preguntas · Exige argumentos</td>
+    </tr>
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:0.5rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--orange);">La actitud</td>
+      <td style="padding:0.5rem 0.6rem;font-family:'Crimson Pro',serif;font-size:0.85rem;color:#8880aa;">Socrática — ignorancia consciente + coraje intelectual</td>
+    </tr>
+    <tr>
+      <td style="padding:0.5rem 0.6rem;font-family:'Rajdhani',sans-serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--green);">El horizonte</td>
+      <td style="padding:0.5rem 0.6rem;font-family:'Crimson Pro',serif;font-size:0.85rem;color:#8880aa;">7 ramas · un año de preguntas que importan</td>
+    </tr>
+  </table>
+  <div class="fb-footer">
+    Prof. Julio Alberto Lazarte · Filosofía 6.º Año · Esc. Amado Juri · Tucumán, Argentina<br>
+    Unidad I · Tema 3 — © 2026 · Uso educativo exclusivo
+  </div>
+</div>
+
+<script>
+// ── PARTICLES ──────────────────────────────────────
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+function createParticle() {
+  const colors = ['#b44ffc30','#00e5ff25','#f0c04020','#39ff7a18','#ff4db820'];
+  return {
+    x: randomBetween(0, W),
+    y: randomBetween(0, H),
+    r: randomBetween(0.5, 2.5),
+    vx: randomBetween(-0.12, 0.12),
+    vy: randomBetween(-0.18, -0.04),
+    color: colors[Math.floor(Math.random() * colors.length)],
+    life: 1,
+    decay: randomBetween(0.0008, 0.002)
+  };
+}
+
+for (let i = 0; i < 120; i++) particles.push(createParticle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach((p, i) => {
+    p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+    if (p.life <= 0 || p.y < -5) particles[i] = createParticle();
+    ctx.save();
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ── SCROLL REVEAL ───────────────────────────────────
+const revealEls = document.querySelectorAll(
+  '.chapter-header, .context-box, .phil-card, .nexo, .big-quote, ' +
+  '.tipos-grid, .compare-table, .socratica-box, .ramas-grid, .cotidiana-grid'
+);
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => io.observe(el));
+
+// ── TOGGLE CARD ─────────────────────────────────────
+function toggleCard(trigger) {
+  const card = trigger.parentElement;
+  const wasOpen = card.classList.contains('open');
+  const chapter = card.closest('.chapter');
+  chapter.querySelectorAll('.phil-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+// ── NAV ─────────────────────────────────────────────
+function goChapter(n) {
+  const sec = document.getElementById('ch' + n);
+  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const chapters = [1,2,3,4,5,6].map(n => document.getElementById('ch' + n));
+const tabs = document.querySelectorAll('.nav-tab');
+
+const navIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const n = e.target.id.replace('ch', '');
+      tabs.forEach(t => t.classList.remove('active'));
+      const active = document.querySelector(`.nav-tab[data-ch="${n}"]`);
+      if (active) {
+        active.classList.add('active');
+        active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+chapters.forEach(ch => { if (ch) navIO.observe(ch); });
+
+// ── PROGRESS BAR ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  document.getElementById('progressBar').style.width = (scrolled * 100) + '%';
+});
+</script>
+</body>
+</html>
