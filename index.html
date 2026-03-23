@@ -24,7 +24,7 @@
   --bg:        #04040e;
   --bg2:       #080818;
   --surface:   #0c0c22;
-  --border:    #1a1a3a;
+  --border:    #78788d;
   --gold:      #f0c040;
   --gold2:     #d4a020;
   --cyan:      #00e5ff;
@@ -35,7 +35,7 @@
   --teal:      #00ffcc;
   --pink:      #ff4db8;
   --text:      #e8e0ff;
-  --muted:     #5a5580;
+  --muted:     #8b86b1;
   --dim:       #2a2850;
 }
 
@@ -80,7 +80,7 @@ body{
 }
 .hero-kicker{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.6rem;
+  font-size:0.8rem;
   letter-spacing:0.4em;
   text-transform:uppercase;
   color:var(--purple);
@@ -128,21 +128,22 @@ body{
 }
 .hero-badges{
   display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;
-  margin-top:1.4rem;
+  margin:1rem 0;
   animation:fadeUp 1s 0.8s ease both;
 }
 .hero-badge{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.55rem;
+  font-size:0.6rem;
   letter-spacing:0.2em;
   text-transform:uppercase;
   padding:0.3rem 0.8rem;
   border-radius:2px;
   border:1px solid var(--border);
   color:var(--muted);
+  font-weight: 600;
 }
 .scroll-hint{
-  margin-top:3rem;
+  margin-top:.9rem;
   display:flex;flex-direction:column;align-items:center;gap:0.4rem;
   animation:fadeUp 1s 1s ease both;
   cursor:pointer;
@@ -242,7 +243,7 @@ body{
 .chapter-header.visible{opacity:1;transform:none;}
 .ch-num{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.58rem;
+  font-size:0.65rem;
   letter-spacing:0.35em;
   text-transform:uppercase;
 }
@@ -312,7 +313,8 @@ body{
 .ch6 .context-box::before{background:var(--teal);}
 .context-label{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.56rem;
+  font-size:0.7rem;
+  font-weight: 600;
   letter-spacing:0.3em;
   text-transform:uppercase;
   color:var(--muted);
@@ -364,7 +366,7 @@ body{
 }
 .card-badge{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.52rem;letter-spacing:0.18em;
+  font-size:0.65rem;letter-spacing:0.18em;
   text-transform:uppercase;
   padding:0.1rem 0.5rem;
   border-radius:2px;border:1px solid currentColor;
@@ -393,7 +395,7 @@ body{
 .sec-label{
   font-family:'Rajdhani',sans-serif;
   font-size:0.56rem;letter-spacing:0.28em;
-  text-transform:uppercase;color:var(--muted);
+  text-transform:uppercase;color:#f3e938;
   margin-bottom:0.5rem;
   display:flex;align-items:center;gap:0.5rem;
 }
@@ -421,12 +423,12 @@ body{
 .concept-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem;}
 .chip{
   font-family:'Rajdhani',sans-serif;
-  font-size:0.6rem;letter-spacing:0.1em;
+  font-size:0.65rem;letter-spacing:0.1em;font-weight: 600;
   padding:0.25rem 0.65rem;
   border-radius:20px;
   background:rgba(255,255,255,0.05);
   border:1px solid var(--border);
-  color:#6a6490;
+  color:#9591ad;
 }
 
 /* ── NEXO ────────────────────────────────────── */
@@ -717,19 +719,20 @@ body{
   HERO
 ══════════════════════════════════════════ -->
 <div class="hero">
-  <div class="hero-kicker">Unidad I · Tema 3 · Filosofía 6.º Año</div>
+  <div class="hero-kicker">Unidad I · Tema 2</div>
   <h1>¿Qué es<br>Filosofar?
     <span>Aprender a hacerse las preguntas que importan</span>
   </h1>
   <div class="hero-sub">No hay filósofos sin asombro. Y tú ya te asombraste: cada vez que preguntaste "¿por qué?" sin conformarte con la primera respuesta.</div>
   <div class="hero-greek">φιλοσοφία · philía + sophía · amor por la sabiduría</div>
   <div class="hero-badges">
-    <span class="hero-badge">El asombro filosófico</span>
-    <span class="hero-badge">3 tipos de preguntas</span>
-    <span class="hero-badge">La actitud socrática</span>
-    <span class="hero-badge">Filosofía en tu vida</span>
-    <span class="hero-badge">Las ramas</span>
+    <span class="hero-badge">1- El asombro filosófico</span>
+    <span class="hero-badge">2 - 3 tipos de preguntas</span>
+    <span class="hero-badge">3 - La actitud socrática</span>
+    <span class="hero-badge">4 - Filosofía en tu vida</span>
+    <span class="hero-badge">5- Las ramas</span>
   </div>
+  <p class="hero-actividad"><strong>Actividad:</strong> lee cada sección y haz un resumen de cada una.</p>
   <div class="scroll-hint" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'})">
     <span>Comenzar</span>
     <div class="scroll-arrow"></div>
@@ -768,7 +771,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch1" id="ch1">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo I · El origen de todo</div>
+    <div class="ch-num">Sección 1 · El origen de todo</div>
     <div class="ch-era">El Asombro (Thaumazein)</div>
     <div class="ch-tagline">La filosofía no nació de una necesidad práctica. Nació de quedarse con la boca abierta.</div>
     <div class="ch-question">Pregunta central: ¿De dónde nace el impulso de filosofar?</div>
@@ -896,7 +899,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch2" id="ch2">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo II · La distinción fundamental</div>
+    <div class="ch-num">Sección 2 · La distinción fundamental</div>
     <div class="ch-era">Tres Tipos de Preguntas</div>
     <div class="ch-tagline">No todas las preguntas se responden igual. Saber qué tipo de pregunta hacés es el primer paso del pensamiento crítico.</div>
     <div class="ch-question">Pregunta central: ¿Qué diferencia una pregunta filosófica de una científica o religiosa?</div>
@@ -1005,7 +1008,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch3" id="ch3">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo III · Las características</div>
+    <div class="ch-num">Sección 3 · Las características</div>
     <div class="ch-era">¿Qué Hace Filosófica a una Pregunta?</div>
     <div class="ch-tagline">No basta con que sea difícil. Una pregunta filosófica tiene rasgos propios que la distinguen de cualquier otra.</div>
     <div class="ch-question">Pregunta central: ¿Cómo reconocer una pregunta filosófica?</div>
@@ -1176,7 +1179,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch4" id="ch4">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo IV · El modelo del filósofo</div>
+    <div class="ch-num">Sección 4 · El modelo del filósofo</div>
     <div class="ch-era">La Actitud Socrática</div>
     <div class="ch-tagline">Sócrates no enseñaba respuestas. Enseñaba a preguntar. Y por eso lo mataron.</div>
     <div class="ch-question">Pregunta central: ¿Qué actitud define al que filosofa?</div>
@@ -1289,7 +1292,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch5" id="ch5">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo V · Lo concreto</div>
+    <div class="ch-num">Sección 5 · Lo concreto</div>
     <div class="ch-era">Filosofía en tu Vida</div>
     <div class="ch-tagline">La filosofía no está en los libros polvorientos. Está en cada decisión difícil, en cada injusticia que te indigna, en cada pregunta que no podés sacarte de la cabeza.</div>
     <div class="ch-question">Pregunta central: ¿Dónde aparece el pensamiento filosófico en la vida real?</div>
@@ -1371,7 +1374,7 @@ body{
 ══════════════════════════════════════════ -->
 <section class="chapter ch6" id="ch6">
   <div class="chapter-header">
-    <div class="ch-num">Capítulo VI · El mapa completo</div>
+    <div class="ch-num">Sección 6 · El mapa completo</div>
     <div class="ch-era">Las Ramas de la Filosofía</div>
     <div class="ch-tagline">La filosofía es una familia de disciplinas. Cada rama pregunta desde un ángulo distinto sobre la realidad, el conocimiento, el bien y la convivencia.</div>
     <div class="ch-question">Pregunta central: ¿Qué grandes preguntas aborda la filosofía?</div>
@@ -1449,10 +1452,10 @@ body{
 
   </div>
 
-  <div class="nexo">
+  <!-- <div class="nexo">
     <div class="nexo-icon">🧭</div>
     <div class="nexo-text"><strong>Tu itinerario este año:</strong> Empezamos por la historia (Temas 1-2), luego preguntamos <em>qué es filosofar</em> (Tema 3), luego aprendemos a detectar razonamientos incorrectos con la lógica (Tema 4), luego entramos en gnoseología (cómo conocemos) y finalizamos con pensamiento crítico aplicado. Todo conectado. Todo para que puedas pensar mejor tu propia vida.</div>
-  </div>
+  </div> -->
 </section>
 
 <div class="meander"></div>
